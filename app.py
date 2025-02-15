@@ -30,6 +30,7 @@ Please note: This tool is for educational purposes only and should not be used f
 """
 
 explanation_ar = """
+<div dir="rtl" style="text-align: right;">
 يستخدم هذا النموذج تقنية التعلم العميق وشبكة عصبية التفافية (CNN) لتحليل صور الرنين المغناطيسي للدماغ وتصنيفها إما كدماغ سليم أو مريض.
 تم تدريب النموذج على مجموعة من صور الرنين المغناطيسي للدماغ ويحقق دقة عالية في اكتشاف الحالات غير الطبيعية.
 
@@ -40,13 +41,14 @@ explanation_ar = """
 - دعم لصيغ الصور الشائعة (JPG, PNG)
 
 ملاحظة: هذه الأداة لأغراض تعليمية فقط ولا ينبغي استخدامها للتشخيص الطبي.
+</div>
 """
 
 # Display explanation based on language selection
 if lang == "English":
     st.write(explanation_en)
 else:
-    st.write(explanation_ar)
+    st.markdown(explanation_ar, unsafe_allow_html=True)
 
 # -------------------------------
 # Load the trained model
