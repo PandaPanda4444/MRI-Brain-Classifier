@@ -5,11 +5,11 @@ import tensorflow as tf
 import gdown
 import os
 
-# Add title and creator info with custom styling
+# Add title and creator info with enhanced styling
 st.markdown("""
-    <h1 style='text-align: center;'>Brain MRI Classification Demo</h1>
-    <p style='text-align: center; color: gray; font-style: italic;'>Created by Eng. Mojtba Allam</p>
-    <hr>
+    <h1 style='text-align: center; font-size: 48px; color: #1E88E5;'>Brain MRI Classification Demo</h1>
+    <p style='text-align: center; color: #424242; font-style: italic; font-size: 24px; margin-top: 20px;'>Created by Eng. Mojtba Allam</p>
+    <hr style='height: 3px; background-color: #1E88E5; border: none; margin: 30px 0;'>
     """, unsafe_allow_html=True)
 
 # -------------------------------
