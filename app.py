@@ -8,7 +8,7 @@ import os
 # Add title and creator info with enhanced styling
 st.markdown("""
     <h1 style='text-align: center; font-size: 48px; color: #1E88E5;'>Brain MRI Classification Demo</h1>
-    <p style='text-align: center; color: #1E88E5; font-style: italic; font-size: 24px; margin-top: 20px;'>Created by Eng. Mojtba Allam</p>
+    <p style='text-align: center; color: #1E88E5; font-style: italic; font-size: 24px; margin-top: 20px; font-weight: bold;'>Created by Eng. Mojtba Allam</p>
     <hr style='height: 3px; background-color: #1E88E5; border: none; margin: 30px 0;'>
     """, unsafe_allow_html=True)
 
