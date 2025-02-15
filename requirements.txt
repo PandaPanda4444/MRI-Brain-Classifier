@@ -1,0 +1,9 @@
+numpy
+opencv-python
+tensorflow-cpu
+scikit-learn
+matplotlib
+streamlit
+nibabel
+pydicom
+gdown
