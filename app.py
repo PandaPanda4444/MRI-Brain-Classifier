@@ -12,8 +12,10 @@ st.markdown("""
     <hr style='height: 3px; background-color: #1E88E5; border: none; margin: 30px 0;'>
     """, unsafe_allow_html=True)
 
-# Add language selection
-lang = st.sidebar.radio("Language / اللغة", ["English", "العربية"])
+# Create columns for language selection
+col1, col2, col3 = st.columns([1, 2, 1])
+with col2:
+    lang = st.radio("Language / اللغة", ["English", "العربية"], horizontal=True)
 
 # Model explanation text
 explanation_en = """
