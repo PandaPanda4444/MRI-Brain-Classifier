@@ -12,6 +12,42 @@ st.markdown("""
     <hr style='height: 3px; background-color: #1E88E5; border: none; margin: 30px 0;'>
     """, unsafe_allow_html=True)
 
+# Add language selection
+lang = st.sidebar.radio("Language / اللغة", ["English", "العربية"])
+
+# Model explanation text
+explanation_en = """
+This deep learning model uses a Convolutional Neural Network (CNN) to analyze brain MRI scans and classify them as either healthy or diseased. 
+The model has been trained on a dataset of brain MRI images and achieves high accuracy in detecting abnormalities.
+
+Key Features:
+- Real-time classification
+- High accuracy predictions
+- Confidence score for each prediction
+- Support for common image formats (JPG, PNG)
+
+Please note: This tool is for educational purposes only and should not be used for medical diagnosis.
+"""
+
+explanation_ar = """
+يستخدم هذا النموذج تقنية التعلم العميق وشبكة عصبية التفافية (CNN) لتحليل صور الرنين المغناطيسي للدماغ وتصنيفها إما كدماغ سليم أو مريض.
+تم تدريب النموذج على مجموعة من صور الرنين المغناطيسي للدماغ ويحقق دقة عالية في اكتشاف الحالات غير الطبيعية.
+
+الميزات الرئيسية:
+- تصنيف فوري
+- تنبؤات عالية الدقة
+- درجة الثقة لكل تنبؤ
+- دعم لصيغ الصور الشائعة (JPG, PNG)
+
+ملاحظة: هذه الأداة لأغراض تعليمية فقط ولا ينبغي استخدامها للتشخيص الطبي.
+"""
+
+# Display explanation based on language selection
+if lang == "English":
+    st.write(explanation_en)
+else:
+    st.write(explanation_ar)
+
 # -------------------------------
 # Load the trained model
 # -------------------------------
@@ -72,8 +108,9 @@ def main():
     st.title("Brain MRI Classification Demo")
     st.write("Upload a brain MRI image to see the classification result.")
 
-    # File uploader widget
-    uploaded_file = st.file_uploader("Choose an MRI image...", type=["jpg", "jpeg", "png"])
+    # File uploader widget with language support
+    upload_text = "Choose an MRI image..." if lang == "English" else "اختر صورة الرنين المغناطيسي..."
+    uploaded_file = st.file_uploader(upload_text, type=["jpg", "jpeg", "png"])
     
     if uploaded_file is not None:
         processed_img = preprocess_image(uploaded_file)
@@ -82,17 +119,24 @@ def main():
             uploaded_file.seek(0)
             file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
             img_bgr = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
-            st.image(cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB), caption="Uploaded MRI Image", use_container_width=True)
+            st.image(cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB), 
+                    caption="Uploaded MRI Image" if lang == "English" else "صورة الرنين المغناطيسي المحملة", 
+                    use_container_width=True)
             
-            if st.button("Classify"):
+            # Classify button with language support
+            button_text = "Classify" if lang == "English" else "تصنيف"
+            if st.button(button_text):
                 result, confidence = predict(model, processed_img)
                 # Use different colors based on prediction
                 if "Diseased" in result:
-                    st.error(f"Prediction: **{result}** (Confidence: {confidence:.2f}%)")
+                    result_ar = "دماغ مريض" if lang == "العربية" else result
+                    st.error(f"{'Prediction' if lang == 'English' else 'النتيجة'}: **{result_ar}** ({'Confidence' if lang == 'English' else 'نسبة الثقة'}: {confidence:.2f}%)")
                 else:
-                    st.success(f"Prediction: **{result}** (Confidence: {confidence:.2f}%)")
+                    result_ar = "دماغ سليم" if lang == "العربية" else result
+                    st.success(f"{'Prediction' if lang == 'English' else 'النتيجة'}: **{result_ar}** ({'Confidence' if lang == 'English' else 'نسبة الثقة'}: {confidence:.2f}%)")
         else:
-            st.error("Error processing the image. Please try another file.")
+            error_text = "Error processing the image. Please try another file." if lang == "English" else "خطأ في معالجة الصورة. الرجاء المحاولة بملف آخر."
+            st.error(error_text)
 
 if __name__ == "__main__":
     main()
