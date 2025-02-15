@@ -1,5 +1,5 @@
 numpy
-opencv-python
+opencv-python-headless
 tensorflow-cpu
 scikit-learn
 matplotlib
