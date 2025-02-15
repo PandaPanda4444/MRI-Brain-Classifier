@@ -5,6 +5,13 @@ import tensorflow as tf
 import gdown
 import os
 
+# Add title and creator info with custom styling
+st.markdown("""
+    <h1 style='text-align: center;'>Brain MRI Classification Demo</h1>
+    <p style='text-align: center; color: gray; font-style: italic;'>Created by Eng. Mojtba Allam</p>
+    <hr>
+    """, unsafe_allow_html=True)
+
 # -------------------------------
 # Load the trained model
 # -------------------------------
