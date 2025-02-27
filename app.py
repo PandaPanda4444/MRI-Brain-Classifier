@@ -8,7 +8,7 @@ import os
 # Add title and creator info with enhanced styling
 st.markdown("""
     <h1 style='text-align: center; font-size: 48px; color: #1E88E5;'>Brain MRI Classification Demo</h1>
-    <p style='text-align: center; color: #1E88E5; font-style: italic; font-size: 24px; margin-top: 20px; font-weight: bold;'>Created by Eng. Mojtba Allam</p>
+    <p style='text-align: center; color: #1E88E5; font-style: italic; font-size: 24px; margin-top: 20px; font-weight: bold;'>Created by Mojtba Allam</p>
     <hr style='height: 3px; background-color: #1E88E5; border: none; margin: 30px 0;'>
     """, unsafe_allow_html=True)
 
@@ -57,6 +57,13 @@ else:
 # -------------------------------
 @st.cache_resource
 def load_model():
+    """
+    Loads the trained CNN model from disk or downloads it from Google Drive if not present.
+    Uses Streamlit caching to prevent reloading on each run.
+    
+    Returns:
+        tensorflow.keras.Model: The loaded brain MRI classification model
+    """
     # Create models directory if it doesn't exist
     os.makedirs("models", exist_ok=True)
     model_path = "models/model.h5"
@@ -82,8 +89,14 @@ IMG_WIDTH, IMG_HEIGHT = 128, 128
 # -------------------------------
 def preprocess_image(image_file):
     """
-    Reads an uploaded image file, converts it to grayscale,
-    resizes it, normalizes it, and prepares it for prediction.
+    Preprocesses an uploaded MRI image for model prediction.
+    
+    Args:
+        image_file: StreamletUploadedFile containing the MRI image
+        
+    Returns:
+        numpy.ndarray: Preprocessed image array ready for model prediction
+        None: If image processing fails
     """
     file_bytes = np.asarray(bytearray(image_file.read()), dtype=np.uint8)
     img = cv2.imdecode(file_bytes, cv2.IMREAD_GRAYSCALE)
@@ -99,6 +112,16 @@ def preprocess_image(image_file):
 # Prediction function
 # -------------------------------
 def predict(model, processed_img):
+    """
+    Makes a prediction on the preprocessed MRI image using the loaded model.
+    
+    Args:
+        model: tensorflow.keras.Model for classification
+        processed_img: numpy.ndarray of the preprocessed image
+        
+    Returns:
+        tuple: (prediction result string, confidence percentage)
+    """
     preds = model.predict(processed_img)
     class_idx = np.argmax(preds, axis=1)[0]
     confidence = preds[0][class_idx] * 100
@@ -109,6 +132,11 @@ def predict(model, processed_img):
 # Streamlit UI
 # -------------------------------
 def main():
+    """
+    Main application function that handles the Streamlit UI and orchestrates
+    the image upload, processing, and prediction workflow. Supports both
+    English and Arabic languages.
+    """
     st.title("Brain MRI Classification Demo")
     st.write("Upload a brain MRI image to see the classification result.")
 
