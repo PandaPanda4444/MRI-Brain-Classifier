@@ -57,6 +57,49 @@ brain_mri_classifier/
 - Dense layers for classification
 - Output: Binary classification (Healthy/Diseased)
 
+## How the Model Works
+
+### 1. Image Preprocessing
+- Input MRI scans are converted to grayscale
+- Images are resized to 128x128 pixels for consistency
+- Pixel values are normalized to range [0,1]
+- Images are expanded to include batch and channel dimensions
+
+### 2. Model Architecture Flow
+1. **Input Layer**
+   - Accepts 128x128x1 grayscale images
+
+2. **Feature Extraction**
+   - Multiple convolutional layers detect features:
+     * Edge detection
+     * Texture patterns
+     * Anatomical structures
+   - MaxPooling layers reduce spatial dimensions
+   - Dropout layers prevent overfitting
+
+3. **Classification**
+   - Flattened features are passed through dense layers
+   - Final sigmoid activation for binary classification
+   - Output: Probability of "Healthy" vs "Diseased"
+
+### 3. Prediction Process
+1. User uploads MRI scan through web interface
+2. Image is preprocessed to match training format
+3. Model performs forward pass to generate prediction
+4. Confidence score is calculated from output probability
+5. Results are displayed with color-coded feedback:
+   - Green for healthy prediction
+   - Red for disease detection
+
+### 4. Model Training Details
+- Trained on balanced dataset of healthy and diseased MRI scans
+- Data augmentation used to improve generalization:
+  * Random rotations
+  * Horizontal flips
+  * Brightness/contrast adjustments
+- Early stopping implemented to prevent overfitting
+- Model evaluated on separate validation set
+
 ## Performance
 - Training Accuracy: ~95%
 - Validation Accuracy: ~92%
