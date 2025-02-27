@@ -35,15 +35,14 @@ brain_mri_classifier/
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/PandaPanda4444/brain-mri-classifier.git
-   cd brain-mri-classifier
+   git clone https://github.com/PandaPanda4444/MRI-Brain-Classifier.git
+   cd MRI-Brain-Classifier
    ```
 
 2. **Install Dependencies**
    ```bash
    pip install -r requirements.txt
    ```
-
 3. **Run the Application**
    ```bash
    streamlit run app.py
@@ -124,3 +123,4 @@ This tool is for research and educational purposes only. It should not be used a
 ## Contact
 Mojtba Allam - mojtba.allam@gmail.com
 Project Link: [https://github.com/PandaPanda4444/brain-mri-classifier](https://github.com/PandaPanda4444/brain-mri-classifier)
+
