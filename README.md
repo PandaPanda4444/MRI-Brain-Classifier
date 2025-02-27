@@ -3,6 +3,8 @@
 ## Overview
 A deep learning application that classifies brain MRI scans as either "Healthy" or "Diseased" using Convolutional Neural Networks (CNN). The system provides a user-friendly web interface for medical professionals to upload and analyze brain MRI images.
 
+Try it live: [Brain MRI Classifier Demo](https://mojtba-allam-mri-brain-classifier.streamlit.app/)
+
 ## Features
 - Real-time MRI scan classification
 - Bilingual interface (English/Arabic)
