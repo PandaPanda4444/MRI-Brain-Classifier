@@ -7,7 +7,7 @@ Try it live: [Brain MRI Classifier Demo](https://mojtba-allam-mri-brain-classifi
 
 ## Features
 - Real-time MRI scan classification
-- Bilingual interface (English/Arabic)
+- Multilingual interface (English/Arabic/Persian)
 - High accuracy neural network model
 - Confidence score for predictions
 - Visual feedback with color-coded results
@@ -108,7 +108,7 @@ brain_mri_classifier/
 
 ## Usage
 1. Open the web interface
-2. Select preferred language (English/Arabic)
+2. Select preferred language (English/Arabic/Persian)
 3. Upload a brain MRI scan (JPG, JPEG, or PNG format)
 4. Click "Classify" to get the prediction
 5. View results with confidence score

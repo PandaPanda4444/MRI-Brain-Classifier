@@ -15,7 +15,7 @@ st.markdown("""
 # Create columns for language selection
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
-    lang = st.radio("Language / اللغة", ["English", "العربية"], horizontal=True)
+    lang = st.radio("Language / اللغة / زبان", ["English", "العربية", "فارسی"], horizontal=True)
 
 # Model explanation text
 explanation_en = """
@@ -46,11 +46,29 @@ explanation_ar = """
 </div>
 """
 
+# Add Persian explanation
+explanation_fa = """
+<div dir="rtl" style="text-align: right;">
+این مدل با استفاده از شبکه عصبی کانولوشنال (CNN) تصاویر MRI مغز را تحلیل کرده و آنها را به عنوان سالم یا بیمار طبقه‌بندی می‌کند.
+این مدل روی مجموعه‌ای از تصاویر MRI مغز آموزش دیده و دقت بالایی در تشخیص ناهنجاری‌ها دارد.
+
+ویژگی‌های اصلی:
+- طبقه‌بندی در لحظه
+- پیش‌بینی با دقت بالا
+- نمره اطمینان برای هر پیش‌بینی
+- پشتیبانی از فرمت‌های رایج تصویر (JPG, PNG)
+
+توجه: این ابزار تنها برای اهداف آموزشی است و نباید برای تشخیص پزشکی استفاده شود.
+</div>
+"""
+
 # Display explanation based on language selection
 if lang == "English":
     st.write(explanation_en)
-else:
+elif lang == "العربية":
     st.markdown(explanation_ar, unsafe_allow_html=True)
+else:
+    st.markdown(explanation_fa, unsafe_allow_html=True)
 
 # -------------------------------
 # Load the trained model
@@ -134,14 +152,19 @@ def predict(model, processed_img):
 def main():
     """
     Main application function that handles the Streamlit UI and orchestrates
-    the image upload, processing, and prediction workflow. Supports both
-    English and Arabic languages.
+    the image upload, processing, and prediction workflow. Supports English,
+    Arabic, and Persian languages.
     """
     st.title("Brain MRI Classification Demo")
-    st.write("Upload a brain MRI image to see the classification result.")
-
-    # File uploader widget with language support
-    upload_text = "Choose an MRI image..." if lang == "English" else "اختر صورة الرنين المغناطيسي..."
+    
+    # Update upload text for Persian
+    if lang == "English":
+        upload_text = "Choose an MRI image..."
+    elif lang == "العربية":
+        upload_text = "اختر صورة الرنين المغناطيسي..."
+    else:
+        upload_text = "...یک تصویر MRI انتخاب کنید"
+    
     uploaded_file = st.file_uploader(upload_text, type=["jpg", "jpeg", "png"])
     
     if uploaded_file is not None:
@@ -151,23 +174,69 @@ def main():
             uploaded_file.seek(0)
             file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
             img_bgr = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
+            
+            # Update caption for Persian
+            if lang == "English":
+                caption = "Uploaded MRI Image"
+            elif lang == "العربية":
+                caption = "صورة الرنين المغناطيسي المحملة"
+            else:
+                caption = "تصویر MRI آپلود شده"
+                
             st.image(cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB), 
-                    caption="Uploaded MRI Image" if lang == "English" else "صورة الرنين المغناطيسي المحملة", 
+                    caption=caption, 
                     use_container_width=True)
             
-            # Classify button with language support
-            button_text = "Classify" if lang == "English" else "تصنيف"
+            # Update button text for Persian
+            if lang == "English":
+                button_text = "Classify"
+            elif lang == "العربية":
+                button_text = "تصنيف"
+            else:
+                button_text = "طبقه‌بندی"
+                
             if st.button(button_text):
                 result, confidence = predict(model, processed_img)
-                # Use different colors based on prediction
+                
+                # Update result text for Persian
                 if "Diseased" in result:
-                    result_ar = "دماغ مريض" if lang == "العربية" else result
-                    st.error(f"{'Prediction' if lang == 'English' else 'النتيجة'}: **{result_ar}** ({'Confidence' if lang == 'English' else 'نسبة الثقة'}: {confidence:.2f}%)")
+                    if lang == "English":
+                        result_text = result
+                    elif lang == "العربية":
+                        result_text = "دماغ مريض"
+                    else:
+                        result_text = "مغز بیمار"
                 else:
-                    result_ar = "دماغ سليم" if lang == "العربية" else result
-                    st.success(f"{'Prediction' if lang == 'English' else 'النتيجة'}: **{result_ar}** ({'Confidence' if lang == 'English' else 'نسبة الثقة'}: {confidence:.2f}%)")
+                    if lang == "English":
+                        result_text = result
+                    elif lang == "العربية":
+                        result_text = "دماغ سليم"
+                    else:
+                        result_text = "مغز سالم"
+                
+                # Update prediction and confidence labels
+                if lang == "English":
+                    pred_label = "Prediction"
+                    conf_label = "Confidence"
+                elif lang == "العربية":
+                    pred_label = "النتيجة"
+                    conf_label = "نسبة الثقة"
+                else:
+                    pred_label = "نتیجه"
+                    conf_label = "درصد اطمینان"
+                
+                if "Diseased" in result:
+                    st.error(f"{pred_label}: **{result_text}** ({conf_label}: {confidence:.2f}%)")
+                else:
+                    st.success(f"{pred_label}: **{result_text}** ({conf_label}: {confidence:.2f}%)")
         else:
-            error_text = "Error processing the image. Please try another file." if lang == "English" else "خطأ في معالجة الصورة. الرجاء المحاولة بملف آخر."
+            # Update error text for Persian
+            if lang == "English":
+                error_text = "Error processing the image. Please try another file."
+            elif lang == "العربية":
+                error_text = "خطأ في معالجة الصورة. الرجاء المحاولة بملف آخر."
+            else:
+                error_text = "خطا در پردازش تصویر. لطفاً فایل دیگری را امتحان کنید."
             st.error(error_text)
 
 if __name__ == "__main__":
