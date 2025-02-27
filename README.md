@@ -122,5 +122,3 @@ This tool is for research and educational purposes only. It should not be used a
 
 ## Contact
 Mojtba Allam - mojtba.allam@gmail.com
-Project Link: [https://github.com/PandaPanda4444/brain-mri-classifier](https://github.com/PandaPanda4444/brain-mri-classifier)
-
